@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laurea di Francesca</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #fff6f0 0%, #ffe3f6 100%);
+            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .main-container {
+            max-width: 430px;
+            margin: auto;
+            background: #fffdfaee;
+            border-radius: 32px;
+            box-shadow: 0 8px 32px #e447ab22;
+            padding: 2.5rem 1.2rem 2rem 1.2rem;
+            animation: fadeIn 0.7s;
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+        .header-icon {
+            color: #e447ab;
+            animation: bounce 1.2s infinite alternate;
+        }
+        .main-title {
+            color: #e447ab;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 12px #e447ab33;
+            font-size: 2em;
+        }
+        .lead {
+            color: #d63a9c;
+            font-size: 1.1em;
+        }
+        .form-label {
+            color: #e447ab;
+            font-weight: 600;
+        }
+        #dedicationForm {
+            background: #fffdfa;
+            border-radius: 25px;
+            box-shadow: 0 4px 18px #e447ab22;
+            padding: 1.5rem 1rem 1rem 1rem;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+        .btn-primary {
+            border-radius: 30px;
+            border: none;
+            background: linear-gradient(90deg, #e447ab 60%, #ff7ecb 100%);
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 4px 18px #e447ab44;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #ff7ecb 60%, #e447ab 100%);
+            transform: translateY(-2px) scale(1.04);
+        }
+        .btn-outline-primary {
+            border-radius: 30px;
+            border: 2px solid #e447ab;
+            color: #e447ab;
+            font-weight: 600;
+            background: #fffdfa;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-outline-primary:hover {
+            background: #e447ab;
+            color: #fffdfa;
+        }
+        #successMessage {
+            color: #e447ab;
+            font-weight: 600;
+            font-size: 1.2em;
+            background: #fffdfa;
+            border-radius: 20px;
+            box-shadow: 0 2px 12px #e447ab22;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        @media (max-width: 600px) {
+            .main-container {
+                padding: 1.2rem 0.3rem 1rem 0.3rem;
+                margin: auto;
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+            .main-title {
+                font-size: 1.3em;
+            }
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(-18px);}
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container position-relative">
+        <div class="text-center mb-4">
+            <i class="fas fa-graduation-cap fa-3x header-icon"></i>
+        </div>
+        <h1 class="main-title mb-3 text-center">Celebriamo la<br>Laurea di Francesca!</h1>
+        <p class="lead mb-4 text-center">
+            Lascia una dedica speciale e una foto ricordo
+            <i class="fas fa-heart" style="color:#e447ab;"></i>
+        </p>
+        <form action="/submit" method="post" enctype="multipart/form-data" id="dedicationForm" class="shadow-none">
+            <div class="form-group mb-3">
+                <label for="name" class="form-label">Il tuo nome</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Scrivi qui il tuo nome" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="dedication" class="form-label">La tua dedica</label>
+                <textarea class="form-control" id="dedication" name="dedication" placeholder="Scrivi qui la tua dedica" rows="3" required></textarea>
+            </div>
+            <div class="form-group mb-4">
+                <label for="photo" class="form-label">Foto ricordo</label>
+                <small class="text-muted d-block">
+                    Puoi selezionare un file o scattare una foto
+                </small>
+                <div class="d-flex gap-2">
+                    <input type="file" class="form-control" id="photo" name="photo" 
+                           accept="image/*" capture="environment" required>
+                    <button type="button" class="btn btn-outline-primary" style="min-width: 50px;"
+                            onclick="document.getElementById('photo').click()">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+                Invia <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+        <div id="successMessage" class="mt-4" style="display: none;">
+            <i class="fas fa-check-circle fa-2x mb-2"></i>
+            <h4>Grazie per la tua dedica!</h4>
+        </div>
+        <div class="mt-5 text-center">
+            <a href="login.html" class="btn btn-outline-primary">
+                <i class="fas fa-user-lock"></i> Area Francesca
+            </a>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>

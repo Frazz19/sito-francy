@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Riservata Francesca</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #fff6f0 0%, #ffe3f6 100%);
+            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container {
+            max-width: 430px;
+            margin: auto;
+            background: #fffdfaee;
+            border-radius: 32px;
+            box-shadow: 0 8px 32px #e447ab22;
+            padding: 2.5rem 1.2rem 2rem 1.2rem;
+            animation: fadeIn 0.7s;
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+        .login-icon {
+            color: #e447ab;
+            animation: bounce 1.2s infinite alternate;
+        }
+        .login-title {
+            color: #e447ab;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 12px #e447ab33;
+            font-size: 1.5em;
+        }
+        .form-label {
+            color: #e447ab;
+            font-weight: 600;
+        }
+        .btn-primary {
+            border-radius: 30px;
+            border: none;
+            background: linear-gradient(90deg, #e447ab 60%, #ff7ecb 100%);
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 4px 18px #e447ab44;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #ff7ecb 60%, #e447ab 100%);
+            transform: translateY(-2px) scale(1.04);
+        }
+        .back-arrow-btn {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            z-index: 20;
+            background: #fffdfa;
+            border: 2px solid #e447ab;
+            color: #e447ab;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            box-shadow: 0 2px 8px #e447ab22;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+            outline: none;
+            cursor: pointer;
+        }
+        .back-arrow-btn:active, .back-arrow-btn.animating {
+            background: #e447ab;
+            color: #fffdfa;
+            transform: scale(0.92) translateX(-6px);
+        }
+        @media (max-width: 600px) {
+            .login-container {
+                margin: auto;
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+            .login-title {
+                font-size: 1.1em;
+            }
+            .back-arrow-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1.1em;
+                top: 10px;
+                left: 10px;
+            }
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(-18px);}
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container position-relative">
+        <button class="back-arrow-btn" onclick="animateBackArrow(this)">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="text-center mb-4">
+            <i class="fas fa-user-graduate fa-3x login-icon"></i>
+        </div>
+        <h2 class="login-title mb-3 text-center">Area Riservata Francesca</h2>
+        <p class="mb-4 text-center" style="color:#d63a9c; font-weight:600;">
+            Questa area è riservata a Francesca per visualizzare tutte le dediche ricevute.
+        </p>
+        {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form method="POST" class="shadow-none">
+            <div class="form-group mb-4">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Accedi <i class="fas fa-lock"></i></button>
+        </form>
+    </div>
+    <script>
+        function animateBackArrow(btn) {
+            btn.classList.add('animating');
+            setTimeout(() => {
+                btn.classList.remove('animating');
+                window.location.href = '/';
+            }, 180);
+        }
+    </script>
+</body>
+</html>

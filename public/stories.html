@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dediche per Francesca</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #fff6f0 0%, #ffe3f6 100%);
+            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .confetti-bg {
+            pointer-events: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 0;
+        }
+        .story-main-container {
+            width: 430px;  /* Larghezza fissa invece di max-width */
+            margin: auto;
+            background: #fffdfaee;
+            border-radius: 32px;
+            box-shadow: 0 8px 32px #e447ab22;
+            padding: 2.5rem 1.2rem 2rem 1.2rem;
+            animation: fadeIn 0.7s;
+            margin-left: 12px;
+            margin-right: 12px;
+            position: relative;
+            z-index: 2;
+        }
+        .story-container {
+            width: 100%;        /* Larghezza fissa al 100% del contenitore */
+            margin: 0 auto;
+            background: #fffdfaee;
+            border-radius: 32px;
+            box-shadow: 0 8px 32px #e447ab22;
+            padding: 2.2rem 1.2rem 1.7rem 1.2rem;
+            position: relative;
+            min-height: auto;       /* Rimuoviamo min-height fisso */
+            max-height: 80vh;       /* Altezza massima rispetto al viewport */
+            animation: fadeIn 0.7s;
+            z-index: 2;
+            overflow: hidden;
+            touch-action: pan-y;
+            display: flex;          /* Aggiungiamo flex */
+            flex-direction: column;
+        }
+
+        .story-photo {
+            width: auto;           /* Auto invece di 100% */
+            max-width: 100%;       /* Massimo la larghezza del contenitore */
+            max-height: 50vh;      /* Massimo 50% dell'altezza del viewport */
+            height: auto;          /* Auto invece di fixed */
+            display: block;
+            margin: 0 auto 1.2rem auto;  /* Centrato */
+            border-radius: 22px;
+            box-shadow: 0 4px 18px #e447ab33;
+            border: 3px solid #e447ab33;
+            animation: popIn 0.7s;
+            user-select: none;
+            touch-action: none;
+            object-fit: contain;
+            background: #fffdfa;
+        }
+        .story-author {
+            color: #e447ab;
+            font-weight: bold;
+            font-size: 1.25em;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em;
+        }
+        .story-dedication {
+            font-size: 1.15em;
+            margin-bottom: 1.2rem;
+            color: #d63a9c;
+            font-style: italic;
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3em;
+        }
+        .story-dedication i.fa-quote-left {
+            color: #e447ab;
+            margin-right: 0.3em;
+        }
+        .story-dedication i.fa-quote-right {
+            color: #e447ab;
+            margin-left: 0.3em;
+        }
+        .story-nav {
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 20%;
+            cursor: pointer;
+            z-index: 3;
+            background: transparent;
+        }
+        .story-nav.left { 
+            left: 0; 
+        }
+        .story-nav.right { 
+            right: 0; 
+        }
+        .arrow-btn {
+            position: absolute;
+            z-index: 4;
+            background: rgba(255,255,255,0.9);
+            border: 2px solid #e447ab;
+            border-radius: 50%;
+            width: 32px;  /* Ridotto leggermente */
+            height: 32px; /* Ridotto leggermente */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e447ab;
+            font-size: 1em;
+            box-shadow: 0 2px 8px #e447ab22;
+            transition: all 0.2s;
+            opacity: 1;
+            outline: none;
+            cursor: pointer;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .arrow-btn:active, .arrow-btn:hover {
+            background: #e447ab;
+            color: #fff;
+            transform: scale(1.15);
+        }
+        .arrow-btn.left {
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .arrow-btn.right {
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .back-arrow-btn {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            z-index: 20;
+            background: #fffdfa;
+            border: 2px solid #e447ab;
+            color: #e447ab;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            box-shadow: 0 2px 8px #e447ab22;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+            outline: none;
+            cursor: pointer;
+        }
+        .back-arrow-btn:active, .back-arrow-btn.animating {
+            background: #e447ab;
+            color: #fffdfa;
+            transform: scale(0.92) translateX(-6px);
+        }
+        .logout-btn {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            z-index: 10;
+            border-radius: 30px;
+            font-weight: 600;
+            background: #fffdfa;
+            border: 2px solid #e447ab;
+            color: #e447ab;
+            transition: background 0.2s, color 0.2s;
+        }
+        .logout-btn:hover {
+            background: #e447ab;
+            color: #fffdfa;
+        }
+        .story-slider-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            margin-top: -0.5rem;
+            z-index: 5;
+            position: relative;
+            padding: 0 3.5rem; /* Aumentato il padding per le frecce */
+        }
+        .story-slider {
+            width: 120px;
+            accent-color: #e447ab;
+            height: 4px;
+        }
+        .slider-label {
+            color: #e447ab;
+            font-weight: 600;
+            font-size: 1em;
+            min-width: 60px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .download-btn {
+            position: absolute;
+            bottom: 25px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e447ab;
+            font-size: 1.2em;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s;
+            cursor: pointer;
+            z-index: 4;
+        }
+
+        .download-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: scale(1.1);
+        }
+
+        .story-photo-container {
+            position: relative;
+            margin: 0 auto 1.2rem auto;
+            width: fit-content;
+        }
+        @media (max-width: 600px) {
+            .story-main-container {
+                width: calc(100% - 16px);  /* Larghezza adattiva con margini */
+                max-width: 430px;          /* Larghezza massima come prima */
+                padding: 1.2rem 0.3rem 1rem 0.3rem;
+                margin: 8px;
+            }
+
+            .story-photo {
+                max-height: 40vh;    /* Riduciamo l'altezza massima su mobile */
+            }
+            
+            .story-container {
+                max-height: 70vh;    /* Riduciamo l'altezza massima del contenitore */
+            }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.92); opacity: 0.6;}
+            100% { transform: scale(1); opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+    <div class="base-container story-main-container">
+        <button class="back-arrow-btn" onclick="animateBackArrow(this)">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="stories-header">
+            <div class="text-center">
+                <i class="fas fa-star fa-1.8x stories-star" style="color:#ff7ecb;"></i>
+            </div>
+            Dediche per Francesca
+        </div>
+        <div id="storyRoot"></div>
+    </div>
+    <canvas class="confetti-bg"></canvas>
+    <style>
+        .story-main-container {
+            max-width: 430px;
+            margin: 0 auto;
+            margin-top: 5vh;
+            margin-bottom: 5vh;
+            background: #fffdfaee;
+            border-radius: 32px;
+            box-shadow: 0 8px 32px #e447ab22;
+            padding: 2.5rem 1.2rem 2rem 1.2rem;
+            animation: fadeIn 0.7s;
+            margin-left: 12px;
+            margin-right: 12px;
+            position: relative;
+            z-index: 2;
+        }
+        .stories-header {
+            text-align: center;
+            color: #e447ab;
+            font-weight: 900;
+            font-size: 1.6em;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 12px #e447ab33;
+            animation: fadeInDown 1s;
+            z-index: 2;
+            position: relative;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+        .stories-star {
+            animation: bounce 1.2s infinite alternate;
+            display: inline-block;
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(-18px);}
+        }
+        @media (max-width: 600px) {
+            .story-main-container {
+                padding: 1.2rem 0.3rem 1rem 0.3rem;
+                margin-top: 2vh;
+                margin-bottom: 2vh;
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+            .stories-header {
+                font-size: 1.2em;
+            }
+            .fa-star {
+                margin-top: 1.5rem;
+            }
+            .back-arrow-btn {
+                top: 12px;
+                left: 12px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2em;
+            }
+        }
+    </style>
+    <script>
+    // Confetti effect (background only)
+    function confettiEffect() {
+        const canvas = document.querySelector('.confetti-bg');
+        const ctx = canvas.getContext('2d');
+        let W = window.innerWidth, H = window.innerHeight;
+        canvas.width = W; canvas.height = H;
+        let mp = 80; // number of particles
+        let particles = [];
+        for(let i = 0; i < mp; i++) {
+            particles.push({
+                x: Math.random()*W,
+                y: Math.random()*H,
+                r: Math.random()*8+4,
+                d: Math.random()*mp,
+                color: `hsl(${Math.random()*360},80%,70%)`,
+                tilt: Math.floor(Math.random()*10)-10
+            });
+        }
+        function draw() {
+            ctx.clearRect(0,0,W,H);
+            for(let i = 0; i < mp; i++) {
+                let p = particles[i];
+                ctx.beginPath();
+                ctx.lineWidth = p.r;
+                ctx.strokeStyle = p.color;
+                ctx.moveTo(p.x + p.tilt + p.r/3, p.y);
+                ctx.lineTo(p.x + p.tilt, p.y + p.r*2);
+                ctx.stroke();
+            }
+            update();
+        }
+        let angle = 0;
+        function update() {
+            angle += 0.01;
+            for(let i = 0; i < mp; i++) {
+                let p = particles[i];
+                p.y += (Math.cos(angle+p.d) + 1 + p.r/2)/2;
+                p.x += Math.sin(angle);
+                if(p.x > W+20 || p.x < -20 || p.y > H) {
+                    if(i%3>0) {
+                        particles[i] = {x: Math.random()*W, y: -10, r: p.r, d: p.d, color: p.color, tilt: p.tilt};
+                    } else {
+                        if(Math.sin(angle)>0) {
+                            particles[i] = {x: -20, y: Math.random()*H, r: p.r, d: p.d, color: p.color, tilt: p.tilt};
+                        } else {
+                            particles[i] = {x: W+20, y: Math.random()*H, r: p.r, d: p.d, color: p.color, tilt: p.tilt};
+                        }
+                    }
+                }
+            }
+        }
+        setInterval(draw, 33);
+        window.addEventListener('resize', () => {
+            W = window.innerWidth; H = window.innerHeight;
+            canvas.width = W; canvas.height = H;
+        });
+    }
+    confettiEffect();
+
+    // Stories logic
+    let dedications = [];
+    let current = 0;
+
+    function renderSlider() {
+        if (dedications.length <= 1) return '';
+        return `
+            <div class="story-slider-container">
+                <button class="arrow-btn left" onclick="prevStory()" aria-label="Precedente">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <span class="slider-label">${current+1} / ${dedications.length}</span>
+                <input type="range" min="1" max="${dedications.length}" value="${current+1}" class="story-slider" id="storyRange" />
+                <button class="arrow-btn right" onclick="nextStory()" aria-label="Successiva">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        `;
+    }
+
+    function renderStory(idx) {
+        if (dedications.length === 0) {
+            document.getElementById('storyRoot').innerHTML = `
+                <div class="story-container text-center">
+                    <h4>Nessuna dedica ancora!</h4>
+                </div>`;
+            return;
+        }
+        const d = dedications[idx];
+        document.getElementById('storyRoot').innerHTML = `
+            <div class="story-container position-relative" id="storySwipe">
+                ${renderSlider()}
+                <div class="story-nav left"></div>
+                <div class="story-nav right"></div>
+                <div class="story-photo-container">
+                    <img src="${d.photo ? '/uploads/' + d.photo : 'https://via.placeholder.com/400x320?text=No+Photo'}" 
+                         class="story-photo" alt="Foto dedica" draggable="false">
+                    <button class="download-btn" onclick="downloadPhoto('${d.photo}')" aria-label="Scarica foto">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+                <div class="story-author"><i class="fas fa-user"></i> ${d.name}</div>
+                <div class="story-dedication mb-3">
+                    <i class="fas fa-quote-left"></i> ${d.dedication} <i class="fas fa-quote-right"></i>
+                </div>
+            </div>
+        `;
+        addSliderEvent();
+        addSwipeEvents();
+        addNavEvents();
+    }
+
+    function prevStory() {
+        current = (current - 1 + dedications.length) % dedications.length;
+        renderStory(current);
+    }
+    function nextStory() {
+        current = (current + 1) % dedications.length;
+        renderStory(current);
+    }
+
+    function addSliderEvent() {
+        const slider = document.getElementById('storyRange');
+        if (slider) {
+            slider.addEventListener('input', function() {
+                current = parseInt(this.value, 10) - 1;
+                renderStory(current);
+            });
+        }
+    }
+
+    function addNavEvents() {
+        const leftNav = document.querySelector('.story-nav.left');
+        const rightNav = document.querySelector('.story-nav.right');
+        
+        leftNav.addEventListener('click', () => {
+            prevStory();
+        });
+        
+        rightNav.addEventListener('click', () => {
+            nextStory();
+        });
+    }
+
+    // Swipe effect for mobile
+    function addSwipeEvents() {
+        const swipeElem = document.getElementById('storySwipe');
+        if (!swipeElem) return;
+        let startX = 0, endX = 0, isTouch = false;
+
+        swipeElem.addEventListener('touchstart', function(e) {
+            isTouch = true;
+            startX = e.changedTouches[0].screenX;
+        }, {passive:true});
+        swipeElem.addEventListener('touchend', function(e) {
+            if (!isTouch) return;
+            endX = e.changedTouches[0].screenX;
+            handleSwipe();
+            isTouch = false;
+        }, {passive:true});
+
+        // Per desktop: swipe con mouse
+        let mouseDown = false;
+        swipeElem.addEventListener('mousedown', function(e) {
+            mouseDown = true;
+            startX = e.screenX;
+        });
+        swipeElem.addEventListener('mouseup', function(e) {
+            if (!mouseDown) return;
+            endX = e.screenX;
+            handleSwipe();
+            mouseDown = false;
+        });
+
+        function handleSwipe() {
+            let diff = endX - startX;
+            if (Math.abs(diff) > 60) {
+                if (diff > 0) prevStory();
+                else nextStory();
+            }
+        }
+    }
+
+    fetch('/dedications')
+        .then(res => {
+            if (res.status === 401) window.location = '/login';
+            return res.json();
+        })
+        .then(data => {
+            dedications = data;
+            current = 0;
+            renderStory(current);
+        });
+
+    function animateBackArrow(btn) {
+        btn.classList.add('animating');
+        setTimeout(() => {
+            btn.classList.remove('animating');
+            window.location.href = '/';
+        }, 180);
+    }
+
+    function downloadPhoto(photoName) {
+        if (!photoName) return;
+        const link = document.createElement('a');
+        link.href = '/uploads/' + photoName;
+        link.download = photoName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    </script>
+</body>
+</html>
