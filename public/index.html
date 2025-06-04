@@ -133,17 +133,18 @@
             </div>
             <div class="form-group mb-4">
                 <label for="photo" class="form-label">Foto ricordo</label>
-                <small class="text-muted d-block">
-                    Puoi selezionare un file o scattare una foto
-                </small>
-                <div class="d-flex gap-2">
-                    <input type="file" class="form-control" id="photo" name="photo" 
-                           accept="image/*" capture="environment" required>
-                    <button type="button" class="btn btn-outline-primary" style="min-width: 50px;"
-                            onclick="document.getElementById('photo').click()">
+                <div class="d-flex gap-3">
+                    <input type="file" class="form-control d-none" id="photo" name="photo" accept="image/*" required>
+                    <button type="button" class="btn btn-outline-primary flex-fill py-2" style="font-size: 1.3em;"
+                            id="btn-camera">
                         <i class="fas fa-camera"></i>
                     </button>
+                    <button type="button" class="btn btn-outline-primary flex-fill py-2" style="font-size: 1.3em;"
+                            id="btn-gallery">
+                        <i class="fas fa-image"></i>
+                    </button>
                 </div>
+                <div id="photo-selected-text" class="text-center mt-2" style="color:#e447ab; font-weight:600; font-size:1em; min-height:1.2em;"></div>
             </div>
             <button type="submit" class="btn btn-primary w-100">
                 Invia <i class="fas fa-paper-plane"></i>
@@ -160,5 +161,29 @@
         </div>
     </div>
     <script src="js/main.js"></script>
+    <script>
+        const photoInput = document.getElementById('photo');
+        const photoSelectedText = document.getElementById('photo-selected-text');
+        const btnCamera = document.getElementById('btn-camera');
+        const btnGallery = document.getElementById('btn-gallery');
+
+        btnCamera.addEventListener('click', function() {
+            photoInput.setAttribute('capture', 'environment');
+            photoInput.click();
+        });
+
+        btnGallery.addEventListener('click', function() {
+            photoInput.removeAttribute('capture');
+            photoInput.click();
+        });
+
+        photoInput.addEventListener('change', function() {
+            if (photoInput.files && photoInput.files.length > 0) {
+                photoSelectedText.textContent = "Foto selezionata: " + photoInput.files[0].name;
+            } else {
+                photoSelectedText.textContent = "";
+            }
+        });
+    </script>
 </body>
 </html>

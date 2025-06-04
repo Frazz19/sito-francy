@@ -447,9 +447,10 @@
                 ${renderSlider()}
                 <div class="story-nav left"></div>
                 <div class="story-nav right"></div>
-                <div class="story-photo-container">
+                <div class="story-photo-container" style="width:320px; height:320px; max-width:100%; margin:0 auto 1.2rem auto; display:flex; align-items:center; justify-content:center; position:relative;">
                     <img src="${d.photo ? '/uploads/' + d.photo : 'https://via.placeholder.com/400x320?text=No+Photo'}" 
-                         class="story-photo" alt="Foto dedica" draggable="false">
+                         class="story-photo" alt="Foto dedica" draggable="false"
+                         style="max-width:100%; max-height:100%; width:auto; height:auto; display:block; margin:auto;">
                     <button class="download-btn" onclick="downloadPhoto('${d.photo}')" aria-label="Scarica foto">
                         <i class="fas fa-download"></i>
                     </button>
